@@ -1,51 +1,74 @@
 package com.rpg175.linux;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class IntelSegmentDescriptor {
     public static void main(String[] args) {
-        String segmentDescriptor = "0xCF9A000000FFFF";
-        String segmentDescriptorStr =Long.toBinaryString(0xCF9A000000FFFFL);
-        System.out.println(segmentDescriptor);
-        System.out.println(segmentDescriptorStr + " 长度："+segmentDescriptorStr.length());
-        System.out.println("00000000"+segmentDescriptorStr + " 补0，长度：64");
-        char[] chars =("00000000"+segmentDescriptorStr).toCharArray();
-        Map<String,int[]> segmentDescriptorItemMap = new HashMap<>();
-        int[] BaseIndex1 = {0,8};
-        int[] GIndex = {8,9};
-        int[] DorBIndex = {9,10};
-        int[] LIndex = {11,12};
-        int[] avlIndex = {12,13};
-        int[] SegLimitIndex = {14,17};
-        int[] PIndex = {17,18};
-        int[] DPLIndex = {18,19};
-        int[] SIndex = {20,21};
-        int[] TypeIndex = {21,24};
-        int[] BaseIndex2 = {24,32};
-        int[] BaseIndex3 = {32,48};
-        int[] SegmentLimitIndex3 = {48,64};
+        calSegmentDescriptor("kernel 4GB code",0x00cf9a000000ffffL);
+        calSegmentDescriptor("user 4GB code",0x00cffa000000ffffL);
+    }
 
-        System.out.println("Base:     "+getString(BaseIndex1,chars));
-        System.out.println("G:        "+getString(GIndex,chars));
-        System.out.println("D/B:      "+getString(DorBIndex,chars));
-        System.out.println("L:        "+getString(LIndex,chars));
-        System.out.println("AVL:      "+getString(avlIndex,chars));
-        System.out.println("SegLimit: "+getString(SegLimitIndex,chars));
-        System.out.println("P:        "+getString(PIndex,chars));
-        System.out.println("DPL:      "+getString(DPLIndex,chars));
-        System.out.println("S:        "+getString(SIndex,chars));
-        System.out.println("Type:     "+getString(TypeIndex,chars));
-        System.out.println("Base:     "+getString(BaseIndex2,chars));
-        System.out.println("Base:     "+getString(BaseIndex3,chars));
-        System.out.println("SegLimit: "+getString(SegmentLimitIndex3,chars));
+    private static void calSegmentDescriptor(String desc,long segmentDescriptor) {
+        String segmentDescriptorStr =Long.toBinaryString(segmentDescriptor);
+        log(desc+" at : " + segmentDescriptor);
+        log(segmentDescriptorStr + " 长度："+ segmentDescriptorStr.length());
+        String base = "";
+        for (int i = 0; i < 64- segmentDescriptorStr.length(); i++) {
+            base += "0";
+        }
+        segmentDescriptorStr = base + segmentDescriptorStr;
+        log(segmentDescriptorStr + " 补0，长度："+ segmentDescriptorStr.length());
+        char[] chars = segmentDescriptorStr.toCharArray();
+
+        int[] BaseIndex1 = {24,8};
+        int[] GIndex = {23,1};
+        int[] DorBIndex = {22,1};
+        int[] LIndex = {21,1};
+        int[] avlIndex = {20,1};
+        int[] SegLimitIndex = {16,4};
+        int[] PIndex = {15,1};
+        int[] DPLIndex = {13,2};
+        int[] SIndex = {12,1};
+        int[] TypeIndex = {8,4};
+        int[] BaseIndex2 = {0,8};
+        int[] BaseIndex3 = {0,16};
+        int[] SegmentLimitIndex3 = {16,16};
+
+        log("Base:     "+getString(BaseIndex1,chars));
+        log("G:        "+getString(GIndex,chars));
+        log("D/B:      "+getString(DorBIndex,chars));
+        log("L:        "+getString(LIndex,chars));
+        log("AVL:      "+getString(avlIndex,chars));
+        log("SegLimit: "+getString(SegLimitIndex,chars));
+        log("P:        "+getString(PIndex,chars));
+        log("DPL:      "+getString(DPLIndex,chars));
+        log("S:        "+getString(SIndex,chars));
+        log("Type:     "+getString(TypeIndex,chars));
+        log("Base:     "+getString(BaseIndex2,chars));
+        log("Base:     "+getItemString(BaseIndex3,chars,32));
+        log("SegLimit: "+getItemString(SegmentLimitIndex3,chars,32));
+    }
+    private static String getItemString(int[] indexArr,char[] chars,int startIndex) {
+        String s = "";
+        int start = startIndex+indexArr[0];
+        for (int i = 0; i < indexArr[1]; i++) {
+            s += chars[start + i];
+        }
+        int end = start + s.length()-1;
+        if (end > start) {
+            s = s + "  [" + start + ":" + end +"]";
+        } else {
+            s = s + "  [" + start +"]";
+        }
+
+        return s;
     }
 
     private static String getString(int[] indexArr,char[] chars) {
-        String s = "";
-        for (int i = indexArr[0]; i < indexArr[1]; i++) {
-            s += chars[i];
-        }
-        return s;
+        return getItemString(indexArr,chars,0);
+    }
+
+    private static void log(String log) {
+        System.out.println(log);
     }
 }
