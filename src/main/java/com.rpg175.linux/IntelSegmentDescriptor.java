@@ -1,5 +1,6 @@
 package com.rpg175.linux;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class IntelSegmentDescriptor {
@@ -10,7 +11,7 @@ public class IntelSegmentDescriptor {
 
     private static void calSegmentDescriptor(String desc,long segmentDescriptor) {
         String segmentDescriptorStr =Long.toBinaryString(segmentDescriptor);
-        log(desc+" at : " + segmentDescriptor);
+        log(desc+" at : " + Long.toHexString(segmentDescriptor));
         log(segmentDescriptorStr + " 长度："+ segmentDescriptorStr.length());
         String base = "";
         for (int i = 0; i < 64- segmentDescriptorStr.length(); i++) {
@@ -51,14 +52,18 @@ public class IntelSegmentDescriptor {
     private static String getItemString(int[] indexArr,char[] chars,int startIndex) {
         String s = "";
         int start = startIndex+indexArr[0];
+
+        if (startIndex == 0) {
+            start = 32-(indexArr[0]+indexArr[1]);
+        }
         for (int i = 0; i < indexArr[1]; i++) {
             s += chars[start + i];
         }
-        int end = start + s.length()-1;
-        if (end > start) {
-            s = s + "  [" + start + ":" + end +"]";
+        int end = startIndex+indexArr[0] + s.length()-1;
+        if (end > startIndex+indexArr[0]) {
+            s = s + "  [" + (startIndex+indexArr[0]) + ":" + end +"]";
         } else {
-            s = s + "  [" + start +"]";
+            s = s + "  [" + (startIndex+indexArr[0]) +"]";
         }
 
         return s;
