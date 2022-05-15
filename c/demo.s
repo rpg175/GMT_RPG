@@ -5,23 +5,20 @@
 _main:                                  ## @main
 	.cfi_startproc
 ## %bb.0:
-	pushl	%ebp
-	.cfi_def_cfa_offset 8
-	.cfi_offset %ebp, -8
-	movl	%esp, %ebp
-	.cfi_def_cfa_register %ebp
-	subl	$8, %esp
-	calll	L0$pb
-L0$pb:
-	popl	%eax
-	leal	L_.str-L0$pb(%eax), %eax
-	movl	$0, -4(%ebp)
-	movl	%eax, (%esp)
-	calll	_printf
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register %rbp
+	subq	$16, %rsp
+	movl	$0, -4(%rbp)
+	leaq	L_.str(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
 	xorl	%eax, %eax
-	addl	$8, %esp
-	popl	%ebp
-	retl
+	addq	$16, %rsp
+	popq	%rbp
+	retq
 	.cfi_endproc
                                         ## -- End function
 	.section	__TEXT,__cstring,cstring_literals
