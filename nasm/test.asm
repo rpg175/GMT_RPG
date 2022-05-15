@@ -1,13 +1,10 @@
-assume cs:code
-code segment
+assume cs:abc
+abc segment
     mov ax,2
-    mov cx,4
-s:
     add ax,ax
-    loop s
-
+    add ax,ax
     mov ax,4c00h
     int 21h
 
-code ends
+abc ends
 end
