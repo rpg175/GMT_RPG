@@ -5,25 +5,25 @@
 _sum:                                   ## @sum
 	.cfi_startproc
 ## %bb.0:
-	pushl	%ebp
-	.cfi_def_cfa_offset 8
-	.cfi_offset %ebp, -8
-	movl	%esp, %ebp
-	.cfi_def_cfa_register %ebp
-	movl	28(%ebp), %eax
-	movl	24(%ebp), %eax
-	movl	20(%ebp), %eax
-	movl	16(%ebp), %eax
-	movl	12(%ebp), %eax
-	movl	8(%ebp), %eax
-	movl	8(%ebp), %eax
-	addl	12(%ebp), %eax
-	addl	16(%ebp), %eax
-	addl	20(%ebp), %eax
-	addl	24(%ebp), %eax
-	addl	28(%ebp), %eax
-	popl	%ebp
-	retl
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register %rbp
+	movl	%edi, -4(%rbp)
+	movl	%esi, -8(%rbp)
+	movl	%edx, -12(%rbp)
+	movl	%ecx, -16(%rbp)
+	movl	%r8d, -20(%rbp)
+	movl	%r9d, -24(%rbp)
+	movl	-4(%rbp), %eax
+	addl	-8(%rbp), %eax
+	addl	-12(%rbp), %eax
+	addl	-16(%rbp), %eax
+	addl	-20(%rbp), %eax
+	addl	-24(%rbp), %eax
+	popq	%rbp
+	retq
 	.cfi_endproc
                                         ## -- End function
 	.globl	_main                           ## -- Begin function main
@@ -31,24 +31,24 @@ _sum:                                   ## @sum
 _main:                                  ## @main
 	.cfi_startproc
 ## %bb.0:
-	pushl	%ebp
-	.cfi_def_cfa_offset 8
-	.cfi_offset %ebp, -8
-	movl	%esp, %ebp
-	.cfi_def_cfa_register %ebp
-	subl	$40, %esp
-	movl	$0, -4(%ebp)
-	movl	$1, (%esp)
-	movl	$2, 4(%esp)
-	movl	$3, 8(%esp)
-	movl	$4, 12(%esp)
-	movl	$5, 16(%esp)
-	movl	$6, 20(%esp)
-	calll	_sum
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register %rbp
+	subq	$16, %rsp
+	movl	$0, -4(%rbp)
+	movl	$1, %edi
+	movl	$2, %esi
+	movl	$3, %edx
+	movl	$4, %ecx
+	movl	$5, %r8d
+	movl	$6, %r9d
+	callq	_sum
 	xorl	%eax, %eax
-	addl	$40, %esp
-	popl	%ebp
-	retl
+	addq	$16, %rsp
+	popq	%rbp
+	retq
 	.cfi_endproc
                                         ## -- End function
 .subsections_via_symbols
