@@ -3,14 +3,10 @@
 	.globl	_main                           ## -- Begin function main
 	.p2align	4, 0x90
 _main:                                  ## @main
-	.cfi_startproc
 ## %bb.0:
 	pushl	%ebp
-	.cfi_def_cfa_offset 8
-	.cfi_offset %ebp, -8
 	movl	%esp, %ebp
-	.cfi_def_cfa_register %ebp
-	subl	$40, %esp
+	subl	$56, %esp
 	calll	L0$pb
 L0$pb:
 	popl	%eax
@@ -24,12 +20,23 @@ L0$pb:
 	movl	%ecx, -12(%ebp)
 	movl	(l___const.main.arr-L0$pb)+8(%eax), %ecx
 	movl	%ecx, -8(%ebp)
-	movl	-16(%ebp), %ecx
-	movl	%ecx, -24(%ebp)
-	movl	-12(%ebp), %ecx
-	movl	%ecx, -28(%ebp)
-	movl	-8(%ebp), %ecx
-	movl	%ecx, -32(%ebp)
+	leal	-16(%ebp), %ecx
+	movl	-16(%ebp), %edx
+	movl	%edx, -24(%ebp)
+	movl	-12(%ebp), %edx
+	movl	%edx, -28(%ebp)
+	movl	-8(%ebp), %edx
+	movl	%edx, -32(%ebp)
+	movl	%ecx, -36(%ebp)
+	movl	-36(%ebp), %ecx
+	movl	(%ecx), %ecx
+	movl	%ecx, -40(%ebp)
+	movl	-36(%ebp), %ecx
+	movl	4(%ecx), %ecx
+	movl	%ecx, -44(%ebp)
+	movl	-36(%ebp), %ecx
+	movl	8(%ecx), %ecx
+	movl	%ecx, -48(%ebp)
 	movl	L___stack_chk_guard$non_lazy_ptr-L0$pb(%eax), %eax
 	movl	(%eax), %eax
 	movl	-4(%ebp), %ecx
@@ -37,13 +44,12 @@ L0$pb:
 	jne	LBB0_2
 ## %bb.1:
 	movl	$1, %eax
-	addl	$40, %esp
+	addl	$56, %esp
 	popl	%ebp
 	retl
 LBB0_2:
 	calll	___stack_chk_fail
 	ud2
-	.cfi_endproc
                                         ## -- End function
 	.section	__TEXT,__const
 	.p2align	2                               ## @__const.main.arr
