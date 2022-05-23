@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <string.h>
+
 struct sdshdr {
 	int len;
 	int free;
@@ -7,8 +7,12 @@ struct sdshdr {
 };
 
 int main(void) {
-	//struct sdshdr _struct = {1,2,"123"};
-	printf("%d",sizeof(struct sdshdr));
-	//printf("%d",sizeof(_struct));
+	struct sdshdr _struct;
+	int a = 1;	
+	printf("%d\n",sizeof(struct sdshdr));
+	printf("%d\n",sizeof(_struct));
+	printf("%d\n",sizeof(a++));
+	printf("%d\n",(((&a)+1)-&a));
+	printf("%d\n",(((int *)0) + 1));
 	return 1;
 }
