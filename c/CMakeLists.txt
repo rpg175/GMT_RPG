@@ -3,5 +3,4 @@ project(c C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(c
-        demo3.c)
+add_executable(c demo5.c)
