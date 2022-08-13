@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class IntelSegmentDescriptor {
+
     public static void main(String[] args) {
         calSegmentDescriptor("kernel 4GB code",0x00cf9a000000ffffL);
         calSegmentDescriptor("user 4GB code",0x00cffa000000ffffL);
