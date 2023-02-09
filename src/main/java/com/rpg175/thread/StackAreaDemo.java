@@ -1,6 +1,7 @@
 package com.rpg175.thread;
 
 public class StackAreaDemo {
+
     public static void main(String[] args) throws InterruptedException {
         System.out.println("当前线程名称：" + Thread.currentThread().getName());
         System.out.println("当前线程ID：" + Thread.currentThread().getId());
