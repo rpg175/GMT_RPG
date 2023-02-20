@@ -26,5 +26,6 @@ public class TestIO {
 
     public static void main(String[] args) {
         File file = new File("");
+        System.out.println(file.length());
     }
 }
